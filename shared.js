@@ -7,7 +7,9 @@ function arcadeAddPoints(amount,source){const s=arcadeState();s.points+=Math.max
 function arcadeRecordScore(game,score){const s=arcadeState();s.highScores[game]=Math.max(s.highScores[game]||0,Math.floor(score));arcadeSave(s);return s}
 function arcadeBuyTheme(theme){const s=arcadeState(),t=ARCADE_THEMES[theme];if(!t||s.items.includes(theme))return s;if(s.points<t.cost)return null;s.points-=t.cost;s.items.push(theme);s.theme=theme;return arcadeSave(s)}
 function arcadeUseTheme(theme){const s=arcadeState();if(s.items.includes(theme)){s.theme=theme;arcadeSave(s)}arcadeApplyTheme()}
-function arcadeApplyTheme(){const s=arcadeState(),t=ARCADE_THEMES[s.theme]||ARCADE_THEMES.midnight;document.body.style.background=t.bg;document.body.style.color=t.text;document.documentElement.style.setProperty('--arcade-text',t.text);return s}
+function arcadeApplyTheme(){const s=arcadeState(),t=ARCADE_THEMES[s.theme]||ARCADE_THEMES.midnight;document.body.style.background=t.bg;document.body.style.color=t.text;document.documentElement.style.setProperty('--arcade-text',t.text);document.documentElement.style.setProperty('--arcade-canvas',t.canvas);return s}
 function arcadeCanvasBackground(){const s=arcadeState(),t=ARCADE_THEMES[s.theme]||ARCADE_THEMES.midnight;return t.canvas}
 function arcadeTexturePack(){const s=arcadeState(),t=ARCADE_THEMES[s.theme]||ARCADE_THEMES.midnight;return t.pack||'neon'}
 document.addEventListener('DOMContentLoaded',arcadeApplyTheme);
+
+
