@@ -9,7 +9,7 @@ const c=document.getElementById('game'),ctx=c.getContext('2d'),coinEl=document.g
 const bumpers=[[145,215],[225,255],[315,205],[405,250],[500,215],[570,275],[170,320],[285,300],[430,315],[535,340]];
 function pile(){coins=[];for(let row=0;row<7;row++)for(let col=0;col<13;col++){const x=105+col*40+(row%2)*18+(Math.random()-.5)*8;const y=180+row*22+(Math.random()-.5)*5;coins.push({x,y,r:14,vy:0,vx:0,falling:false,spin:Math.random()*7})}}
 function sync(){const a=typeof arcadeState==='function'?arcadeState():{coins:0},d=safeStudy();coinEl.textContent=a.coins;drop.disabled=false;quest.textContent=d.title;noteCount.textContent=d.notes.length+' chars';done.textContent=d.tasks.filter(t=>t.done).length}
-function resize(){const r=c.getBoundingClientRect();ctx.setTransform(r.width/700,0,0,r.width/700)}
+function resize(){const r=c.getBoundingClientRect();ctx.setTransform(r.width/700,0,0,r.width/700,0,0)}
 function addCoin(){if(typeof arcadeSpendCoins==='function'&&arcadeState().coins>0)arcadeSpendCoins(1,'drop');coins.push({x:300+Math.random()*100,y:55,r:14,vy:20,vx:(Math.random()-.5)*25,falling:true,spin:Math.random()*7});draw();sync()}
 function update(dt){const wave=(Math.sin(performance.now()/720)+1)/2,pusherY=286+wave*56,direction=Math.cos(performance.now()/720);pusher=pusherY;for(const q of coins){if(q.falling){q.vy+=420*dt;q.x+=q.vx*dt;q.y+=q.vy*dt;q.vx*=.995;if(q.y>pusherY-q.r&&q.y< pusherY+12&&q.x>75&&q.x<625){q.y=pusherY-q.r;q.vy=0;q.falling=false}}else if(q.y>pusherY-q.r-4&&q.y<pusherY+18){q.y=Math.max(130,q.y+direction*18*dt);q.vx=direction*20}}for(let i=coins.length-1;i>=0;i--){const q=coins[i];if(q.y>418){if(q.x>270&&q.x<430){arcadeAddCoins(5,'prize');toast=75}coins.splice(i,1)}}}
 function drawCoin(q){ctx.save();ctx.translate(q.x,q.y);ctx.rotate(q.spin+=.035);ctx.fillStyle='#e9a82f';ctx.beginPath();ctx.arc(0,0,q.r,0,7);ctx.fill();ctx.strokeStyle='#fff1a0';ctx.lineWidth=3;ctx.stroke();ctx.fillStyle='#795319';ctx.font='bold 15px serif';ctx.textAlign='center';ctx.fillText('★',0,5);ctx.restore()}
@@ -17,6 +17,8 @@ function draw(){ctx.fillStyle=safeBg();ctx.fillRect(0,0,700,470);ctx.fillStyle='
 function loop(now){const dt=Math.min(.03,(now-last)/1000||0);last=now;update(dt);draw();sync();raf=requestAnimationFrame(loop)}
 drop.onclick=addCoin;document.getElementById('refresh').onclick=sync;window.addEventListener('resize',resize);resize();pile();draw();sync();raf=requestAnimationFrame(loop);
 </script></body></html>
+
+
 
 
 
