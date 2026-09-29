@@ -15,8 +15,10 @@ function update(dt){const wave=(Math.sin(performance.now()/720)+1)/2,pusherY=286
 function drawCoin(q){ctx.save();ctx.translate(q.x,q.y);ctx.rotate(q.spin+=.035);ctx.fillStyle='#e9a82f';ctx.beginPath();ctx.arc(0,0,q.r,0,7);ctx.fill();ctx.strokeStyle='#fff1a0';ctx.lineWidth=3;ctx.stroke();ctx.fillStyle='#795319';ctx.font='bold 15px serif';ctx.textAlign='center';ctx.fillText('★',0,5);ctx.restore()}
 function draw(){ctx.fillStyle=safeBg();ctx.fillRect(0,0,700,470);ctx.fillStyle='#ffffff18';ctx.fillRect(45,30,610,370);ctx.fillStyle='#ffffff0d';ctx.fillRect(70,55,560,330);ctx.fillStyle='#ffd85e';ctx.fillRect(50,390,600,18);ctx.fillStyle='#201a3c';ctx.fillRect(270,408,160,50);ctx.fillStyle='#fff3a3';ctx.font='900 15px system-ui';ctx.textAlign='center';ctx.fillText('PRIZE BOX  +5',350,439);ctx.fillStyle='#ff7eb6';ctx.fillRect(70,pusher-5,560,14);ctx.fillStyle='#ffd1e7';ctx.fillRect(80,pusher-2,540,4);for(const b of bumpers){ctx.fillStyle='#e9b93f';ctx.beginPath();ctx.arc(b[0],b[1],13,0,7);ctx.fill();ctx.fillStyle='#fff4a4';ctx.beginPath();ctx.arc(b[0]-4,b[1]-4,4,0,7);ctx.fill()}for(const q of coins)drawCoin(q);if(toast>0){toast--;ctx.fillStyle='#fff8d8';ctx.fillRect(245,75,210,42);ctx.fillStyle='#594516';ctx.font='800 18px system-ui';ctx.textAlign='center';ctx.fillText('+5 coins!',350,102)}}
 function loop(now){const dt=Math.min(.03,(now-last)/1000||0);last=now;update(dt);draw();sync();raf=requestAnimationFrame(loop)}
-drop.onclick=addCoin;document.getElementById('refresh').onclick=sync;window.addEventListener('resize',resize);resize();pile();sync();raf=requestAnimationFrame(loop);
+window.addEventListener('error',e=>{drop.textContent='Error: '+e.message});drop.onclick=addCoin;document.getElementById('refresh').onclick=sync;window.addEventListener('resize',resize);resize();pile();sync();raf=requestAnimationFrame(loop);
 </script></body></html>
+
+
 
 
 
